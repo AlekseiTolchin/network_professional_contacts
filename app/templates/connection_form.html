@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if connection else 'Добавление' }} связи — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if connection else 'Добавление' }} связи</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">От профиля</label>
+        <select name="from_profile_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if connection and connection.from_profile_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">К профилю</label>
+        <select name="to_profile_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if connection and connection.to_profile_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/connections" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

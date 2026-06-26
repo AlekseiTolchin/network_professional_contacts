@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if ps else 'Добавление' }} связи навыка — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if ps else 'Добавление' }} связи навыка и профиля</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Профиль</label>
+        <select name="profile_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if ps and ps.profile_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Навык</label>
+        <select name="skill_id" class="form-select" required>
+            <option value="">— Выберите навык —</option>
+            {% for s in skills %}
+            <option value="{{ s.skill_id }}" {% if ps and ps.skill_id == s.skill_id %}selected{% endif %}>
+                {{ s.skill_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/profile-skills" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

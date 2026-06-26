@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Главная — ProNetwork{% endblock %}
+{% block content %}
+<h2 class="mb-4">Панель управления</h2>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Профили</h5>
+                <p class="display-6">{{ profiles_count }}</p>
+                <a href="/profiles" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Контакты</h5>
+                <p class="display-6">{{ connections_count }}</p>
+                <a href="/connections" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Публикации</h5>
+                <p class="display-6">{{ posts_count }}</p>
+                <a href="/posts" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Навыки</h5>
+                <p class="display-6">{{ skills_count }}</p>
+                <a href="/skills" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Сообщения</h5>
+                <p class="display-6">{{ messages_count }}</p>
+                <a href="/messages" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    {% if current_user.role == 'admin' %}
+    <div class="col-md-4">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Пользователи</h5>
+                <p class="display-6">{{ users_count }}</p>
+                <a href="/users" class="btn btn-light btn-sm">Перейти</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

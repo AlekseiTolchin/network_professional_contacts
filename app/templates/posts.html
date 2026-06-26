@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Публикации — ProNetwork{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Публикации</h2>
+    {% if current_user.role == 'admin' %}
+    <a href="/posts/add" class="btn btn-success">+ Добавить</a>
+    {% endif %}
+</div>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Автор</th>
+            <th>Содержание</th>
+            <th>Дата</th>
+            {% if current_user.role == 'admin' %}
+            <th>Действия</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in posts %}
+        <tr>
+            <td>{{ p.post_id }}</td>
+            <td>{{ p.author.profile_name if p.author else '—' }}</td>
+            <td>{{ p.post_content[:80] }}{% if p.post_content|length > 80 %}…{% endif %}</td>
+            <td>{{ p.creation_date.strftime('%d.%m.%Y %H:%M') if p.creation_date else '—' }}</td>
+            {% if current_user.role == 'admin' %}
+            <td>
+                <a href="/posts/edit/{{ p.post_id }}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="/posts/delete/{{ p.post_id }}" class="d-inline"
+                      onsubmit="return confirm('Удалить публикацию?')">
+                    <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

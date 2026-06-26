@@ -1,0 +1,22 @@
+/* Дополнительные стили для ProNetwork */
+
+body {
+    background-color: #f5f7fa;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.display-6 {
+    font-weight: bold;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3rem;
+}

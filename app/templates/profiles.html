@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Профили — ProNetwork{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Профили</h2>
+    {% if current_user.role == 'admin' %}
+    <a href="/profiles/add" class="btn btn-success">+ Добавить</a>
+    {% endif %}
+</div>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Должность</th>
+            <th>Компания</th>
+            {% if current_user.role == 'admin' %}
+            <th>Действия</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for p in profiles %}
+        <tr>
+            <td>{{ p.profile_id }}</td>
+            <td>{{ p.profile_name }}</td>
+            <td>{{ p.job_title or '—' }}</td>
+            <td>{{ p.company_name or '—' }}</td>
+            {% if current_user.role == 'admin' %}
+            <td>
+                <a href="/profiles/edit/{{ p.profile_id }}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="/profiles/delete/{{ p.profile_id }}" class="d-inline"
+                      onsubmit="return confirm('Удалить профиль? Все связанные данные будут удалены.')">
+                    <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

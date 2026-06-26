@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if post else 'Добавление' }} публикации — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if post else 'Добавление' }} публикации</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-8">
+    <div class="mb-3">
+        <label class="form-label">Автор</label>
+        <select name="posted_by_profile_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if post and post.posted_by_profile_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Содержание</label>
+        <textarea name="post_content" class="form-control" rows="4" required>{{ post.post_content if post else '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/posts" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

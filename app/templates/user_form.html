@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if edit_user else 'Добавление' }} пользователя — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if edit_user else 'Добавление' }} пользователя</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Логин</label>
+        <input type="text" name="username" class="form-control" value="{{ edit_user.username if edit_user else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Пароль {% if edit_user %}(оставьте пустым, чтобы не менять){% endif %}</label>
+        <input type="password" name="password" class="form-control" {{ 'required' if not edit_user else '' }}>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Роль</label>
+        <select name="role" class="form-select" required>
+            <option value="user" {% if edit_user and edit_user.role == 'user' %}selected{% endif %}>user</option>
+            <option value="admin" {% if edit_user and edit_user.role == 'admin' %}selected{% endif %}>admin</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Привязанный профиль</label>
+        <select name="profile_id" class="form-select">
+            <option value="">— Без профиля —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if edit_user and edit_user.profile_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/users" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

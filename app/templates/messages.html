@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Сообщения — ProNetwork{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Сообщения</h2>
+    {% if current_user.role == 'admin' %}
+    <a href="/messages/add" class="btn btn-success">+ Добавить</a>
+    {% endif %}
+</div>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Отправитель</th>
+            <th>Получатель</th>
+            <th>Сообщение</th>
+            <th>Дата</th>
+            {% if current_user.role == 'admin' %}
+            <th>Действия</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for m in messages %}
+        <tr>
+            <td>{{ m.message_id }}</td>
+            <td>{{ m.sender.profile_name if m.sender else '—' }}</td>
+            <td>{{ m.receiver.profile_name if m.receiver else '—' }}</td>
+            <td>{{ m.message_body[:60] }}{% if m.message_body|length > 60 %}…{% endif %}</td>
+            <td>{{ m.sent_at.strftime('%d.%m.%Y %H:%M') if m.sent_at else '—' }}</td>
+            {% if current_user.role == 'admin' %}
+            <td>
+                <a href="/messages/edit/{{ m.message_id }}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                <form method="post" action="/messages/delete/{{ m.message_id }}" class="d-inline"
+                      onsubmit="return confirm('Удалить сообщение?')">
+                    <button class="btn btn-sm btn-outline-danger">Удалить</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

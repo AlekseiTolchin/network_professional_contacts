@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if message else 'Добавление' }} сообщения — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if message else 'Добавление' }} сообщения</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-8">
+    <div class="mb-3">
+        <label class="form-label">Отправитель</label>
+        <select name="sender_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if message and message.sender_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Получатель</label>
+        <select name="receiver_id" class="form-select" required>
+            <option value="">— Выберите профиль —</option>
+            {% for p in profiles %}
+            <option value="{{ p.profile_id }}" {% if message and message.receiver_id == p.profile_id %}selected{% endif %}>
+                {{ p.profile_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Текст сообщения</label>
+        <textarea name="message_body" class="form-control" rows="4" required>{{ message.message_body if message else '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/messages" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

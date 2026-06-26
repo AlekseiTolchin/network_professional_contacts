@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Редактирование' if skill else 'Добавление' }} навыка — ProNetwork{% endblock %}
+{% block content %}
+<h2>{{ 'Редактирование' if skill else 'Добавление' }} навыка</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">Название навыка</label>
+        <input type="text" name="skill_name" class="form-control" value="{{ skill.skill_name if skill else '' }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/skills" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}
